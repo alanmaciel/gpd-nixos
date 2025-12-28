@@ -44,7 +44,7 @@
 
   "battery": {
     "format": "{icon}",
-    "format-charging": "{icon}",
+    "format-charging": "󰂄",
     "format-icons": ["", "", "", "", ""],
     "tooltip": true,
     "tooltip-format": "Battery: {capacity}%"
