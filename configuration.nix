@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./home.nix
   ];
 
   ########################################
@@ -99,13 +100,6 @@
         monitorConfig = "Option \"Rotate\" \"right\"";
       }
     ];
-
-    windowManager.qtile.enable = true;
-
-    displayManager.sessionCommands = ''
-      xwallpaper --zoom ~/walls/cabin.png
-      xset r rate 200 35 &
-    '';
   };
 
   # Input stack (mostly for X11, harmless on Wayland)

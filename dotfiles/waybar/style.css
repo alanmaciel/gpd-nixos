@@ -1,0 +1,150 @@
+/* ==========================================
+   Gruvbox Dark Hard Waybar Theme
+   Opaque + 22px fonts for 720p GPD MicroPC
+   ========================================== */
+
+* {
+  border: none;
+  border-radius: 0;
+  font-family: "JetBrains Mono", "Symbols Nerd Font Mono", "Font Awesome 6 Free", "Font Awesome 6 Brands", monospace;
+  font-size: 22px;
+  min-height: 0;
+}
+
+window#waybar {
+  background: #3c3836;  /* gruvbox dark bg */
+  color: #ebdbb2;
+  padding: 4px 8px;
+  border-bottom: 1px solid #3c3836;
+}
+
+/* Sections spacing */
+.modules-left,
+.modules-center,
+.modules-right {
+  margin: 0 2px;
+}
+
+/* ===============================
+   WORKSPACES
+   =============================== */
+#workspaces {
+  background: #3c3836;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+#workspaces button {
+  padding: 0 10px;
+  margin: 0 2px;
+  background: transparent;
+  color: #a89984;  /* dim gray for empty workspaces */
+}
+
+#workspaces button.occupied {
+  background: #504945;  /* subtle bg for occupied workspaces */
+  color: #d79921;  /* gruvbox yellow - occupied but not active */
+}
+
+#workspaces button:hover {
+  background: #504945;
+  color: #fbf1c7;
+}
+
+#workspaces button.active {
+  background: #458588;  /* gruvbox blue */
+  color: #fbf1c7;
+  font-weight: bold;
+}
+
+/* ===============================
+   MODULE BLOCKS
+   =============================== */
+#battery,
+#cpu,
+#memory,
+#network,
+#pulseaudio,
+#clock,
+#tray,
+#custom-power {
+  padding: 2px 10px;
+  margin: 0 4px;
+  background: #3c3836;
+  border-radius: 6px;
+}
+
+/* Battery states */
+#battery.charging {
+  background: #98971a;
+  color: #1d2021;
+}
+
+#battery.warning {
+  background: #d79921;
+  color: #1d2021;
+}
+
+#battery.critical {
+  background: #cc241d;
+  color: #fbf1c7;
+}
+
+/* Clock highlight */
+#clock {
+  background: #504945;
+  font-weight: bold;
+}
+
+/* Audio muted */
+#pulseaudio.muted {
+  background: #3c3836;
+  color: #928374;
+}
+
+/* Tray icons spacing */
+#tray > * {
+  margin: 0 4px;
+}
+
+/* ===============================
+   POWER BUTTON
+   =============================== */
+#custom-power {
+  background: #cc241d;
+  color: #fbf1c7;
+}
+
+#custom-power:hover {
+  background: #fb4934;
+  color: #1d2021;
+}
+
+/* ===============================
+   HOVER STATES
+   =============================== */
+#cpu:hover,
+#memory:hover,
+#network:hover,
+#pulseaudio:hover,
+#battery:hover {
+  background: #504945;
+}
+
+/* =======================================
+   FIX: Opaque tooltips (no transparency)
+   ======================================= */
+tooltip,
+.tooltip,
+#waybar tooltip {
+  background-color: #3c3836;     /* Gruvbox dark background */
+  color: #ebdbb2;                /* Gruvbox FG */
+  border-radius: 6px;
+  padding: 6px 10px;
+  border: 1px solid #504945;
+  box-shadow: none;              /* remove glow */
+}
+
+tooltip * {
+  background-color: transparent; /* prevent nested elements from re-adding alpha */
+}

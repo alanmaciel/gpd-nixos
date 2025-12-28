@@ -1,0 +1,4 @@
+[TimeZones]
+LocalZone=America/Mexico_City
+ZoneinfoDir=/etc/zoneinfo
+Zonetab=/etc/zoneinfo/zone.tab

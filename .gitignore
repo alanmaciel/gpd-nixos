@@ -1,0 +1,27 @@
+# Doom Emacs build artifacts and package repos
+dotfiles/emacs/.local/
+
+# Browser caches (regenerated, shouldn't be in version control)
+dotfiles/chromium/
+dotfiles/google-chrome/
+
+# Binary databases (machine-specific)
+dotfiles/dconf/
+dotfiles/akonadi/
+dotfiles/pulse/
+
+# KDE/Qt machine-specific configs
+dotfiles/kde.org/
+dotfiles/kdedefaults/
+dotfiles/libfm/
+dotfiles/pcmanfm/
+dotfiles/session/
+dotfiles/xsettingsd/
+
+# Backup files
+dotfiles/*.bak
+dotfiles/**/.*bak
+*.old
+
+# Doom Emacs backup
+dotfiles/doom.bak/

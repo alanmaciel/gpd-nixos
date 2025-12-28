@@ -1,0 +1,54 @@
+# ===========================================
+# Alacritty TOML config for GPD MicroPC 720p
+# Readable + compact + battery friendly
+# ===========================================
+
+[window]
+padding = { x = 6, y = 6 }
+dynamic_padding = true
+decorations = "Full"
+opacity = 1.0
+
+[font]
+size = 14
+normal = { family = "JetBrains Mono", style = "Regular" }
+
+[font.offset]
+x = 0
+y = 1    # gentle extra leading for readability
+
+[font.glyph_offset]
+x = 0
+y = 0
+
+[cursor]
+style = { shape = "Block", blinking = "Off" }
+unfocused_hollow = false
+
+[colors.primary]
+background = "0x1d2021"  # Gruvbox dark background
+foreground = "0xebdbb2"  # Gruvbox light fg
+
+[colors.normal]
+black   = "0x1d2021"
+red     = "0xcc241d"
+green   = "0x98971a"
+yellow  = "0xd79921"
+blue    = "0x458588"
+magenta = "0xb16286"
+cyan    = "0x689d6a"
+white   = "0xa89984"
+
+[colors.bright]
+black   = "0x928374"
+red     = "0xfb4934"
+green   = "0xb8bb26"
+yellow  = "0xfabd2f"
+blue    = "0x83a598"
+magenta = "0xd3869b"
+cyan    = "0x8ec07c"
+white   = "0xebdbb2"
+
+
+[terminal.shell]
+program = "/run/current-system/sw/bin/bash"
