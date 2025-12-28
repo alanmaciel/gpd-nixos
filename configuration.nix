@@ -35,6 +35,8 @@
     "loglevel=3"                 # Only show errors (3) or warnings+ (4)
     "systemd.show_status=false"  # Hide systemd service status messages
     "rd.udev.log_level=3"        # Reduce udev messages during boot
+    "udev.log_level=3"           # Reduce udev messages after boot
+    "vt.global_cursor_default=0" # Hide cursor blinking
   ];
 
   ########################################
@@ -394,7 +396,7 @@ programs.nix-ld = {
           # como viejos (pkgs.greetd.tuigreet)
           tuigreetPkg = pkgs.tuigreet or pkgs.greetd.tuigreet;
         in ''
-          ${tuigreetPkg}/bin/tuigreet \
+          ${pkgs.coreutils}/bin/clear && ${tuigreetPkg}/bin/tuigreet \
 	    --greeting "Welcome, —  press Enter to begin" \
             --time \
             --remember \
@@ -404,6 +406,13 @@ programs.nix-ld = {
         '';
         user = "greeter";
       };
+    };
+  };
+
+  # Clear TTY before greetd starts
+  systemd.services.greetd = {
+    serviceConfig = {
+      Type = "idle";
     };
   };
 
