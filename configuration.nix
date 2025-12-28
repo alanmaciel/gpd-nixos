@@ -29,6 +29,12 @@
     "i915.enable_psr=0"
     "i915.enable_fbc=0"
     "ucsi_acpi.disable=1"
+
+    # Suppress boot messages that overlap login screen
+    "quiet"                      # Reduce kernel verbosity
+    "loglevel=3"                 # Only show errors (3) or warnings+ (4)
+    "systemd.show_status=false"  # Hide systemd service status messages
+    "rd.udev.log_level=3"        # Reduce udev messages during boot
   ];
 
   ########################################
