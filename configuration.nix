@@ -309,6 +309,8 @@ programs.nix-ld = {
     fastfetch          # System info fetch tool
     lazydocker         # TUI for Docker
     localsend          # Local file sharing
+    dropbox            # Dropbox sync client
+    dropbox-cli        # Dropbox CLI for management
     # pinta              # Paint.NET-like editor
     # tableplus          # Database GUI
   ];
