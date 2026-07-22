@@ -357,8 +357,9 @@ programs.nix-ld = {
     ports = [ 22 ];
     settings = {
       PasswordAuthentication = true;
-      AllowUsers = null;
-      UseDns = true;
+      # UseDns = true hace un reverse lookup por conexión y añade latencia
+      # (o timeouts) al login cuando el DNS no resuelve la IP de origen.
+      UseDns = false;
       X11Forwarding = false;
       PermitRootLogin = "prohibit-password";
     };
