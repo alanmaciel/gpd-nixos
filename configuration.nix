@@ -383,8 +383,9 @@ programs.nix-ld = {
   environment.variables = {
     LIBVA_DRIVER_NAME = "iHD";
 
-    # Wayland / GTK scaling
-    GDK_SCALE = "1.10";
+    # GTK no soporta escalado fraccionario por env: GDK_SCALE se parsea como
+    # entero, así que "1.10" se leía como 1 y no hacía nada. El escalado real
+    # lo aplica el compositor vía `monitor = DSI-1,...,1.25` en hyprland.conf.
     GDK_DPI_SCALE = "1";
 
     # Qt apps scaling
