@@ -461,12 +461,18 @@ programs.nix-ld = {
   xdg.portal = {
     enable = true;
 
-    # Disable GTK portal (creates long delays)
+    # Note: this does NOT disable the GTK portal, despite what the previous
+    # comment here claimed. xdg-desktop-portal-gtk is still installed and is
+    # still used — and that is what we want: hyprland's portal implements
+    # Screenshot/ScreenCast but not FileChooser or Settings, so without the GTK
+    # backend file pickers in GTK apps would have no portal to talk to.
     extraPortals = [
       pkgs.xdg-desktop-portal-hyprland
     ];
 
-    # Prevent GTK portal from loading
+    # configPackages installs hyprland-portals.conf, whose `default=hyprland;gtk`
+    # sets the preference order: hyprland answers first, GTK picks up whatever
+    # hyprland does not implement.
     configPackages = [
       pkgs.xdg-desktop-portal-hyprland
     ];
