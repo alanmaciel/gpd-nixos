@@ -396,9 +396,12 @@ programs.nix-ld = {
     # lo aplica el compositor vía `monitor = DSI-1,...,1.25` en hyprland.conf.
     GDK_DPI_SCALE = "1";
 
-    # Qt apps scaling
-    QT_SCALE_FACTOR = "1.10";
-    QT_FONT_DPI = "110";
+    # Nada de QT_SCALE_FACTOR ni QT_FONT_DPI: bajo Wayland el compositor ya
+    # entrega el factor de escala a las apps Qt, así que estas variables se
+    # multiplicaban encima del 1.25 del monitor (1.25 * 1.10 = 1.375, y
+    # QT_FONT_DPI 110/96 volvía a escalar la fuente hasta ~1.58).
+    # El único sitio donde se ajusta el escalado es la línea `monitor` de
+    # hyprland.conf.
 
     # Cursors (for apps that read env, though Hyprland also has env= lines)
     XCURSOR_THEME = "Adwaita";
