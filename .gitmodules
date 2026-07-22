@@ -1,0 +1,6 @@
+[submodule "dotfiles/doom"]
+	path = dotfiles/doom
+	url = git@github.com:alanmaciel/doomemacs.git
+[submodule "dotfiles/emacs"]
+	path = dotfiles/emacs
+	url = https://github.com/doomemacs/doomemacs
