@@ -278,7 +278,10 @@ programs.nix-ld = {
 
     # :term vterm
     gcc
-    clang
+    # clang completo colisiona con gcc en bin/cc, bin/c++ y bin/gcov; gcc gana
+    # y el resto queda inaccesible. clang-tools aporta clangd para :lang cc
+    # sin pisar los wrappers del compilador.
+    clang-tools
     gnumake
     cmake
     libtool
