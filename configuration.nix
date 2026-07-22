@@ -28,16 +28,27 @@
   boot.kernelParams = [
     "i915.enable_psr=0"
     "i915.enable_fbc=0"
-    "ucsi_acpi.disable=1"
 
     # Suppress boot messages that overlap login screen
     "quiet"                      # Reduce kernel verbosity
-    "loglevel=3"                 # Only show errors (3) or warnings+ (4)
     "systemd.show_status=false"  # Hide systemd service status messages
     "rd.udev.log_level=3"        # Reduce udev messages during boot
     # "udev.log_level=3"           # Reduce udev messages after boot
     # "vt.global_cursor_default=0" # Hide cursor blinking
   ];
+
+  # Not a kernelParam: the kernel module appends its own "loglevel=" derived
+  # from this option *after* boot.kernelParams, and the kernel honours the last
+  # occurrence on the command line. A literal "loglevel=3" in kernelParams was
+  # therefore overridden by the default 4.
+  boot.consoleLogLevel = 3;
+
+  # ucsi_acpi exposes no `disable` module parameter, so the old
+  # "ucsi_acpi.disable=1" kernel param was a no-op: the module still loaded and
+  # spammed `UCSI_GET_PDOS failed (-22)` / `possible UCSI driver bug` on every
+  # boot. The GPD MicroPC's USB-C PD controller is not usable through UCSI
+  # anyway, so keep the module from being probed at all.
+  boot.blacklistedKernelModules = [ "ucsi_acpi" ];
 
   ########################################
   ## Basic System Settings
@@ -145,11 +156,21 @@
       pkgs.interception-tools-plugins.dual-function-keys
     ];
 
-    # No DEVICE filters so it reliably works on every keyboard
+    # The DEVICE block is mandatory, not optional: udevmon only substitutes
+    # $DEVNODE for JOBs attached to a device it matched. Without it the job ran
+    # once at startup with an empty $DEVNODE, `uinput -d` died with
+    # "option requires an argument -- 'd'", and no intercept process survived —
+    # i.e. the remapping below silently did nothing.
+    #
+    # EV_KEY matches devices capable of emitting all the listed keys, which
+    # selects real keyboards and leaves the touchpad/mouse untouched.
     udevmonConfig = ''
       - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE \
              | ${pkgs.interception-tools-plugins.dual-function-keys}/bin/dual-function-keys -c /etc/dual-function-keys.yaml \
              | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
+        DEVICE:
+          EVENTS:
+            EV_KEY: [KEY_SLASH, KEY_BACKSLASH, KEY_DOWN]
     '';
   };
  
