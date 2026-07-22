@@ -465,6 +465,21 @@ programs.nix-ld = {
   };
 
   ########################################
+  ## Nix store housekeeping
+  ########################################
+
+  # El GRUB ya limita el menú a 10 entradas, pero eso no borra las
+  # generaciones: sin GC el store crece indefinidamente en un disco chico.
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
+  # Deduplica archivos idénticos del store por hard link.
+  nix.optimise.automatic = true;
+
+  ########################################
   ## NixOS State Version
   ########################################
 
