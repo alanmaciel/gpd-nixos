@@ -97,28 +97,18 @@
   # Top bar
   programs.waybar.enable = true;
 
- services.xserver = {
-    enable = true;
+  # Sin services.xserver: la sesión es Hyprland vía greetd y las apps X11
+  # corren sobre el XWayland que aporta programs.hyprland.xwayland.enable.
+  # videoDrivers y xrandrHeads eran opciones del servidor X, así que se van
+  # con él; la rotación de pantalla la define `monitor = DSI-1,...,transform,3`
+  # en hyprland.conf.
 
-    videoDrivers = [ "modesetting" ];
-
-    xrandrHeads = [
-      {
-        output = "DSI-1";
-        monitorConfig = "Option \"Rotate\" \"right\"";
-      }
-    ];
-  };
-
-  # Input stack (mostly for X11, harmless on Wayland)
-  services.libinput = {
-    enable = true;
-    touchpad = {
-      scrollMethod = "button";
-      scrollButton = 2;  # Middle mouse button
-      middleEmulation = true;  # Click left+right buttons together = middle click
-    };
-  };
+  # libinput se mantiene explícito: su default es services.xserver.enable, pero
+  # el módulo también instala las reglas udev de libinput (quirks de
+  # dispositivos), que Hyprland sí usa. El sub-bloque `touchpad` no se conserva
+  # porque solo alimentaba services.xserver.inputClassSections; su equivalente
+  # en Wayland vive en el bloque input de hyprland.conf.
+  services.libinput.enable = true;
 
   ########################################
   ## Dual Functions keys
