@@ -54,10 +54,5 @@ bindings = [
   { key = "Back", chars = "\u007f" }
 ]
 
-[env]
-TERM = "xterm-256color"
-
 [terminal.shell]
 program = "/run/current-system/sw/bin/bash"
-
-
