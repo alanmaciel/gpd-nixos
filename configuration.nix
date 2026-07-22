@@ -281,7 +281,6 @@ programs.nix-ld = {
     clang
     gnumake
     cmake
-    buildPackages.cmake
     libtool
 
     # :tools lsp → provides npm
