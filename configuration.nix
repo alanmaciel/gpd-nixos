@@ -302,11 +302,6 @@ programs.nix-ld = {
     python3Packages.pytest
     pipenv   # top-level package
 
-    # optional: ensure `python` binary exists
-    (writeShellScriptBin "python" ''
-      exec python3 "$@"
-    '')
-
     # :lang ruby
     ruby
 
