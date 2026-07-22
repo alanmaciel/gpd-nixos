@@ -26,5 +26,5 @@ dotfiles/**/.*bak
 # Doom Emacs backup
 dotfiles/doom.bak/
 
-# Claude Code local settings (per-máquina, no versionar)
+# Claude Code local settings (per-machine, not versioned)
 .claude/
