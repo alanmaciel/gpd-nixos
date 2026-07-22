@@ -372,8 +372,8 @@ programs.nix-ld = {
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
+      # iHD; cubre Gemini Lake (Gen9 LP) del GPD MicroPC
       intel-media-driver
-      vaapiIntel
     ];
   };
 
