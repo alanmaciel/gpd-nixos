@@ -429,13 +429,6 @@ programs.nix-ld = {
     };
   };
 
-  # Clear TTY before greetd starts
-  # systemd.services.greetd = {
-  #   serviceConfig = {
-  #     Type = "idle";
-  #   };
-  # };
-
   # Ya no necesitamos /etc/greetd/environments para tuigreet,
   # así que se elimina el bloque environment.etc."greetd/environments"
 
