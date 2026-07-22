@@ -316,7 +316,6 @@ programs.nix-ld = {
     nodePackages.js-beautify
 
     chromium
-    docker             # Docker CLI
     telegram-desktop
     impala             # Impala package (if available)
     fastfetch          # System info fetch tool
