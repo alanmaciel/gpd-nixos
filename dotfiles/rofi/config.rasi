@@ -1,2 +1,6 @@
 
-@theme "/nix/store/83ikcsmdi6hg1djz031l2p6idkd43931-rofi-1.7.9+wayland1/share/rofi/themes/gruvbox-dark-soft.rasi"
+/* Bare theme name, not an absolute /nix/store path: rofi resolves it from its
+   own themes directory at runtime. The previous value pinned the store path of
+   rofi-1.7.9+wayland1, which stops existing as soon as the package changes (it
+   did, when rofi-wayland was merged into rofi) and is then garbage collected. */
+@theme "gruvbox-dark-soft"

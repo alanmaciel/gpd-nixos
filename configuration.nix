@@ -248,7 +248,7 @@ programs.nix-ld = {
     # terminal / apps
     alacritty
     pcmanfm
-    rofi-wayland
+    rofi
 
     # tools
     vim
@@ -270,7 +270,7 @@ programs.nix-ld = {
     swappy
     hyprpaper
     adwaita-icon-theme
-    xorg.xcursorthemes
+    xcursor-themes
     gnome-themes-extra
 
     # Doom Emacs + deps
@@ -310,7 +310,7 @@ programs.nix-ld = {
     graphviz
 
     # :lang python
-    python3Full
+    python3
     python3Packages.isort
     python3Packages.pytest
     pipenv   # top-level package
@@ -323,8 +323,8 @@ programs.nix-ld = {
 
     # :lang web
     html-tidy
-    nodePackages.stylelint
-    nodePackages.js-beautify
+    stylelint
+    js-beautify
 
     chromium
     telegram-desktop
