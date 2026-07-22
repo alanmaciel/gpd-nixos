@@ -366,6 +366,17 @@ programs.nix-ld = {
   };
 
   ########################################
+  ## Firewall
+  ########################################
+
+  # openssh ya abre el 22. LocalSend necesita 53317 en TCP (transferencia)
+  # y UDP (descubrimiento por multicast) para verse con otros equipos de la LAN.
+  networking.firewall = {
+    allowedTCPPorts = [ 53317 ];
+    allowedUDPPorts = [ 53317 ];
+  };
+
+  ########################################
   ## Intel GPU Stack
   ########################################
 
