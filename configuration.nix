@@ -51,20 +51,20 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   ########################################
-  ## Console (TTY) – fuente grande + gruvbox
+  ## Console (TTY) – large font + gruvbox
   ########################################
 
   console = {
     earlySetup = true;
     keyMap = "us";
 
-    # Terminus 24px aprox; muy grande para TTY del GPD
+    # Terminus ~24px; very large for the GPD's TTY
     packages = with pkgs; [ terminus_font ];
     font = "ter-u32n";
 
-    # Paleta Gruvbox Dark (16 colores ANSI)
-    # negro, rojo, verde, amarillo, azul, magenta, cyan, blanco,
-    # brightNegro..brightBlanco
+    # Gruvbox Dark palette (16 ANSI colors)
+    # black, red, green, yellow, blue, magenta, cyan, white,
+    # brightBlack..brightWhite
     colors = [
       "282828" # 0  black
       "cc241d" # 1  red
@@ -97,17 +97,17 @@
   # Top bar
   programs.waybar.enable = true;
 
-  # Sin services.xserver: la sesión es Hyprland vía greetd y las apps X11
-  # corren sobre el XWayland que aporta programs.hyprland.xwayland.enable.
-  # videoDrivers y xrandrHeads eran opciones del servidor X, así que se van
-  # con él; la rotación de pantalla la define `monitor = DSI-1,...,transform,3`
-  # en hyprland.conf.
+  # No services.xserver: the session is Hyprland via greetd, and X11 apps run
+  # on the XWayland provided by programs.hyprland.xwayland.enable.
+  # videoDrivers and xrandrHeads were X server options, so they go away with
+  # it; screen rotation is set by `monitor = DSI-1,...,transform,3` in
+  # hyprland.conf.
 
-  # libinput se mantiene explícito: su default es services.xserver.enable, pero
-  # el módulo también instala las reglas udev de libinput (quirks de
-  # dispositivos), que Hyprland sí usa. El sub-bloque `touchpad` no se conserva
-  # porque solo alimentaba services.xserver.inputClassSections; su equivalente
-  # en Wayland vive en el bloque input de hyprland.conf.
+  # libinput is kept explicit: its default is services.xserver.enable, but the
+  # module also installs libinput's udev rules (device quirks), which Hyprland
+  # does use. The `touchpad` sub-block is not kept because it only fed
+  # services.xserver.inputClassSections; its Wayland equivalent lives in the
+  # input block of hyprland.conf.
   services.libinput.enable = true;
 
   ########################################
@@ -145,7 +145,7 @@
       pkgs.interception-tools-plugins.dual-function-keys
     ];
 
-    # Sin filtros de DEVICE para que funcione seguro en todo teclado
+    # No DEVICE filters so it reliably works on every keyboard
     udevmonConfig = ''
       - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE \
              | ${pkgs.interception-tools-plugins.dual-function-keys}/bin/dual-function-keys -c /etc/dual-function-keys.yaml \
@@ -187,7 +187,7 @@
 programs.nix-ld = {
   enable = true;
 
-  # Opcional: si luego necesitas libs específicas, las agregas aquí, por ejemplo:
+  # Optional: if you later need specific libs, add them here, for example:
   # libraries = with pkgs; [
   #   stdenv.cc.cc
   #   zlib
@@ -254,10 +254,10 @@ programs.nix-ld = {
 
     # Doom Emacs + deps
     emacs-pgtk
-    # epdfinfo precompilado para :tools pdf. El paquete lo instala en
-    # share/emacs/site-lisp/elpa/pdf-tools-*/epdfinfo, no en bin/, así que lo
-    # enlazamos a bin/ para que quede en PATH. Exponer solo el binario evita
-    # además que su elisp ensombrezca la copia que maneja straight.
+    # Prebuilt epdfinfo for :tools pdf. The package installs it under
+    # share/emacs/site-lisp/elpa/pdf-tools-*/epdfinfo, not in bin/, so we
+    # symlink it into bin/ to put it on PATH. Exposing only the binary also
+    # keeps its elisp from shadowing the copy straight manages.
     (pkgs.runCommand "epdfinfo" { } ''
       mkdir -p $out/bin
       ln -s ${pkgs.emacsPackages.pdf-tools}/share/emacs/site-lisp/elpa/pdf-tools-*/epdfinfo $out/bin/epdfinfo
@@ -268,9 +268,9 @@ programs.nix-ld = {
 
     # :term vterm
     gcc
-    # clang completo colisiona con gcc en bin/cc, bin/c++ y bin/gcov; gcc gana
-    # y el resto queda inaccesible. clang-tools aporta clangd para :lang cc
-    # sin pisar los wrappers del compilador.
+    # Full clang collides with gcc on bin/cc, bin/c++ and bin/gcov; gcc wins
+    # and the rest becomes unreachable. clang-tools provides clangd for
+    # :lang cc without clobbering the compiler wrappers.
     clang-tools
     gnumake
     cmake
@@ -347,8 +347,8 @@ programs.nix-ld = {
     ports = [ 22 ];
     settings = {
       PasswordAuthentication = true;
-      # UseDns = true hace un reverse lookup por conexión y añade latencia
-      # (o timeouts) al login cuando el DNS no resuelve la IP de origen.
+      # UseDns = true does a reverse lookup per connection and adds latency
+      # (or timeouts) at login when DNS can't resolve the source IP.
       UseDns = false;
       X11Forwarding = false;
       PermitRootLogin = "prohibit-password";
@@ -359,8 +359,8 @@ programs.nix-ld = {
   ## Firewall
   ########################################
 
-  # openssh ya abre el 22. LocalSend necesita 53317 en TCP (transferencia)
-  # y UDP (descubrimiento por multicast) para verse con otros equipos de la LAN.
+  # openssh already opens 22. LocalSend needs 53317 on TCP (transfer) and UDP
+  # (multicast discovery) to see other machines on the LAN.
   networking.firewall = {
     allowedTCPPorts = [ 53317 ];
     allowedUDPPorts = [ 53317 ];
@@ -373,7 +373,7 @@ programs.nix-ld = {
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
-      # iHD; cubre Gemini Lake (Gen9 LP) del GPD MicroPC
+      # iHD; covers the GPD MicroPC's Gemini Lake (Gen9 LP)
       intel-media-driver
     ];
   };
@@ -381,29 +381,30 @@ programs.nix-ld = {
   environment.variables = {
     LIBVA_DRIVER_NAME = "iHD";
 
-    # GTK no soporta escalado fraccionario por env: GDK_SCALE se parsea como
-    # entero, así que "1.10" se leía como 1 y no hacía nada. El escalado real
-    # lo aplica el compositor vía `monitor = DSI-1,...,1.25` en hyprland.conf.
+    # GTK does not support fractional scaling through env vars: GDK_SCALE is
+    # parsed as an integer, so "1.10" was read as 1 and did nothing. The real
+    # scaling is applied by the compositor via `monitor = DSI-1,...,1.25` in
+    # hyprland.conf.
     GDK_DPI_SCALE = "1";
 
-    # Nada de QT_SCALE_FACTOR ni QT_FONT_DPI: bajo Wayland el compositor ya
-    # entrega el factor de escala a las apps Qt, así que estas variables se
-    # multiplicaban encima del 1.25 del monitor (1.25 * 1.10 = 1.375, y
-    # QT_FONT_DPI 110/96 volvía a escalar la fuente hasta ~1.58).
-    # El único sitio donde se ajusta el escalado es la línea `monitor` de
+    # No QT_SCALE_FACTOR or QT_FONT_DPI: under Wayland the compositor already
+    # hands the scale factor to Qt apps, so these variables multiplied on top
+    # of the monitor's 1.25 (1.25 * 1.10 = 1.375, and QT_FONT_DPI 110/96
+    # scaled the font again up to ~1.58).
+    # The only place scaling is adjusted is the `monitor` line in
     # hyprland.conf.
 
     # Cursors (for apps that read env, though Hyprland also has env= lines)
     XCURSOR_THEME = "Adwaita";
     XCURSOR_SIZE  = "28";
 
-    # XDG_SESSION_TYPE lo define logind según la sesión real; forzarlo aquí
-    # mentía en sesiones X11. GDK_BACKEND=wayland rompe apps GTK bajo X11,
-    # así que ahora se define solo dentro de Hyprland (env= en hyprland.conf).
+    # XDG_SESSION_TYPE is set by logind based on the actual session; forcing
+    # it here lied in X11 sessions. GDK_BACKEND=wayland breaks GTK apps under
+    # X11, so it is now set only inside Hyprland (env= in hyprland.conf).
   };
 
   ########################################
-  ## Greetd – solo TUIGreet + Hyprland
+  ## Greetd – TUIGreet + Hyprland only
   ########################################
 
   services.greetd = {
@@ -412,8 +413,8 @@ programs.nix-ld = {
     settings = {
       default_session = {
         command = let
-          # Soporta tanto nixpkgs nuevos (pkgs.tuigreet)
-          # como viejos (pkgs.greetd.tuigreet)
+          # Supports both new nixpkgs (pkgs.tuigreet)
+          # and old ones (pkgs.greetd.tuigreet)
           tuigreetPkg = pkgs.tuigreet or pkgs.greetd.tuigreet;
         in ''
           ${tuigreetPkg}/bin/tuigreet \
@@ -429,8 +430,8 @@ programs.nix-ld = {
     };
   };
 
-  # Ya no necesitamos /etc/greetd/environments para tuigreet,
-  # así que se elimina el bloque environment.etc."greetd/environments"
+  # /etc/greetd/environments is no longer needed for tuigreet, so the
+  # environment.etc."greetd/environments" block is gone
 
   ########################################
   ## xdg-portal (Wayland)
@@ -454,15 +455,15 @@ programs.nix-ld = {
   ## Nix store housekeeping
   ########################################
 
-  # El GRUB ya limita el menú a 10 entradas, pero eso no borra las
-  # generaciones: sin GC el store crece indefinidamente en un disco chico.
+  # GRUB already limits the menu to 10 entries, but that does not delete the
+  # generations: without GC the store grows indefinitely on a small disk.
   nix.gc = {
     automatic = true;
     dates = "weekly";
     options = "--delete-older-than 30d";
   };
 
-  # Deduplica archivos idénticos del store por hard link.
+  # Deduplicates identical store files via hard links.
   nix.optimise.automatic = true;
 
   ########################################

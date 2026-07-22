@@ -4,9 +4,9 @@
   # Create symlinks for dotfiles in user's home directory
   # This runs after system activation
   system.userActivationScripts.linkDotfiles = ''
-    # userActivationScripts corre una vez por usuario (alan, root, greeter...),
-    # pero las rutas de abajo son de alan. Sin este guard los demás usuarios
-    # ejecutaban el script y fallaban con permission denied en cada activación.
+    # userActivationScripts runs once per user (alan, root, greeter...), but
+    # the paths below belong to alan. Without this guard the other users ran
+    # the script and failed with permission denied on every activation.
     if [ "$(id -un)" != "alan" ]; then
       exit 0
     fi
@@ -29,12 +29,12 @@
       fi
 
       if [ -L "$link" ]; then
-        # Es un symlink nuestro: reemplazarlo es seguro
+        # It is one of our symlinks: replacing it is safe
         rm -f "$link"
       elif [ -e "$link" ]; then
-        # Directorio o archivo real con datos del usuario (eln-cache,
-        # straight/build, etc.). Nunca borrarlo a ciegas con rm -rf.
-        echo "Skipped: $name (existe $link y no es un symlink; muévelo a mano)" >&2
+        # A real directory or file holding user data (eln-cache,
+        # straight/build, etc.). Never blindly delete it with rm -rf.
+        echo "Skipped: $name ($link exists and is not a symlink; move it by hand)" >&2
         return
       fi
 
