@@ -111,7 +111,14 @@
   };
 
   # Input stack (mostly for X11, harmless on Wayland)
-  services.libinput.enable = true;
+  services.libinput = {
+    enable = true;
+    touchpad = {
+      scrollMethod = "button";
+      scrollButton = 2;  # Middle mouse button
+      middleEmulation = true;  # Click left+right buttons together = middle click
+    };
+  };
 
   ########################################
   ## Dual Functions keys
@@ -237,6 +244,7 @@ programs.nix-ld = {
     neovim
     wget
     git
+    gh
     pfetch
     gedit
     btop
@@ -256,6 +264,14 @@ programs.nix-ld = {
 
     # Doom Emacs + deps
     emacs-pgtk
+    # epdfinfo precompilado para :tools pdf. El paquete lo instala en
+    # share/emacs/site-lisp/elpa/pdf-tools-*/epdfinfo, no en bin/, así que lo
+    # enlazamos a bin/ para que quede en PATH. Exponer solo el binario evita
+    # además que su elisp ensombrezca la copia que maneja straight.
+    (pkgs.runCommand "epdfinfo" { } ''
+      mkdir -p $out/bin
+      ln -s ${pkgs.emacsPackages.pdf-tools}/share/emacs/site-lisp/elpa/pdf-tools-*/epdfinfo $out/bin/epdfinfo
+    '')
     ripgrep
     fd
     gnupg
