@@ -111,7 +111,14 @@
   };
 
   # Input stack (mostly for X11, harmless on Wayland)
-  services.libinput.enable = true;
+  services.libinput = {
+    enable = true;
+    touchpad = {
+      scrollMethod = "button";
+      scrollButton = 2;  # Middle mouse button
+      middleEmulation = true;  # Click left+right buttons together = middle click
+    };
+  };
 
   ########################################
   ## Dual Functions keys
@@ -237,6 +244,7 @@ programs.nix-ld = {
     neovim
     wget
     git
+    gh
     pfetch
     gedit
     btop
@@ -256,16 +264,26 @@ programs.nix-ld = {
 
     # Doom Emacs + deps
     emacs-pgtk
+    # epdfinfo precompilado para :tools pdf. El paquete lo instala en
+    # share/emacs/site-lisp/elpa/pdf-tools-*/epdfinfo, no en bin/, así que lo
+    # enlazamos a bin/ para que quede en PATH. Exponer solo el binario evita
+    # además que su elisp ensombrezca la copia que maneja straight.
+    (pkgs.runCommand "epdfinfo" { } ''
+      mkdir -p $out/bin
+      ln -s ${pkgs.emacsPackages.pdf-tools}/share/emacs/site-lisp/elpa/pdf-tools-*/epdfinfo $out/bin/epdfinfo
+    '')
     ripgrep
     fd
     gnupg
 
     # :term vterm
     gcc
-    clang
+    # clang completo colisiona con gcc en bin/cc, bin/c++ y bin/gcov; gcc gana
+    # y el resto queda inaccesible. clang-tools aporta clangd para :lang cc
+    # sin pisar los wrappers del compilador.
+    clang-tools
     gnumake
     cmake
-    buildPackages.cmake
     libtool
 
     # :tools lsp → provides npm
@@ -286,11 +304,6 @@ programs.nix-ld = {
     python3Packages.pytest
     pipenv   # top-level package
 
-    # optional: ensure `python` binary exists
-    (writeShellScriptBin "python" ''
-      exec python3 "$@"
-    '')
-
     # :lang ruby
     ruby
 
@@ -303,7 +316,6 @@ programs.nix-ld = {
     nodePackages.js-beautify
 
     chromium
-    docker             # Docker CLI
     telegram-desktop
     impala             # Impala package (if available)
     fastfetch          # System info fetch tool
@@ -345,11 +357,23 @@ programs.nix-ld = {
     ports = [ 22 ];
     settings = {
       PasswordAuthentication = true;
-      AllowUsers = null;
-      UseDns = true;
+      # UseDns = true hace un reverse lookup por conexión y añade latencia
+      # (o timeouts) al login cuando el DNS no resuelve la IP de origen.
+      UseDns = false;
       X11Forwarding = false;
       PermitRootLogin = "prohibit-password";
     };
+  };
+
+  ########################################
+  ## Firewall
+  ########################################
+
+  # openssh ya abre el 22. LocalSend necesita 53317 en TCP (transferencia)
+  # y UDP (descubrimiento por multicast) para verse con otros equipos de la LAN.
+  networking.firewall = {
+    allowedTCPPorts = [ 53317 ];
+    allowedUDPPorts = [ 53317 ];
   };
 
   ########################################
@@ -359,16 +383,17 @@ programs.nix-ld = {
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
+      # iHD; cubre Gemini Lake (Gen9 LP) del GPD MicroPC
       intel-media-driver
-      vaapiIntel
     ];
   };
 
   environment.variables = {
     LIBVA_DRIVER_NAME = "iHD";
 
-    # Wayland / GTK scaling
-    GDK_SCALE = "1.10";
+    # GTK no soporta escalado fraccionario por env: GDK_SCALE se parsea como
+    # entero, así que "1.10" se leía como 1 y no hacía nada. El escalado real
+    # lo aplica el compositor vía `monitor = DSI-1,...,1.25` en hyprland.conf.
     GDK_DPI_SCALE = "1";
 
     # Qt apps scaling
@@ -379,9 +404,9 @@ programs.nix-ld = {
     XCURSOR_THEME = "Adwaita";
     XCURSOR_SIZE  = "28";
 
-    # Xwayland DPI scaling
-    XDG_SESSION_TYPE = "wayland";
-    GDK_BACKEND = "wayland";
+    # XDG_SESSION_TYPE lo define logind según la sesión real; forzarlo aquí
+    # mentía en sesiones X11. GDK_BACKEND=wayland rompe apps GTK bajo X11,
+    # así que ahora se define solo dentro de Hyprland (env= en hyprland.conf).
   };
 
   ########################################
@@ -438,6 +463,21 @@ programs.nix-ld = {
       pkgs.xdg-desktop-portal-hyprland
     ];
   };
+
+  ########################################
+  ## Nix store housekeeping
+  ########################################
+
+  # El GRUB ya limita el menú a 10 entradas, pero eso no borra las
+  # generaciones: sin GC el store crece indefinidamente en un disco chico.
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
+  # Deduplica archivos idénticos del store por hard link.
+  nix.optimise.automatic = true;
 
   ########################################
   ## NixOS State Version
