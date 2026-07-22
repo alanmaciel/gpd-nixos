@@ -396,9 +396,9 @@ programs.nix-ld = {
     XCURSOR_THEME = "Adwaita";
     XCURSOR_SIZE  = "28";
 
-    # Xwayland DPI scaling
-    XDG_SESSION_TYPE = "wayland";
-    GDK_BACKEND = "wayland";
+    # XDG_SESSION_TYPE lo define logind según la sesión real; forzarlo aquí
+    # mentía en sesiones X11. GDK_BACKEND=wayland rompe apps GTK bajo X11,
+    # así que ahora se define solo dentro de Hyprland (env= en hyprland.conf).
   };
 
   ########################################
