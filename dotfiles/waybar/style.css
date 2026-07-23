@@ -6,7 +6,7 @@
 * {
   border: none;
   border-radius: 0;
-  font-family: "JetBrains Mono", "Symbols Nerd Font Mono", "Font Awesome 6 Free", "Font Awesome 6 Brands", monospace;
+  font-family: "BlexMono Nerd Font Mono", "Font Awesome 7 Free", "Font Awesome 7 Brands", monospace;
   font-size: 22px;
   min-height: 0;
 }
@@ -63,6 +63,7 @@ window#waybar {
 #battery,
 #cpu,
 #memory,
+#temperature,
 #network,
 #pulseaudio,
 #clock,
@@ -72,6 +73,35 @@ window#waybar {
   margin: 0 4px;
   background: #3c3836;
   border-radius: 6px;
+}
+
+/* Idle colors. cpu and memory share the same level glyphs (▁▂▃▄▅▆▇█),
+   so the base color is what tells them apart at a glance. */
+#cpu {
+  color: #83a598;  /* gruvbox blue */
+}
+
+#memory {
+  color: #d3869b;  /* gruvbox purple */
+}
+
+#temperature {
+  color: #8ec07c;  /* gruvbox aqua */
+}
+
+/* ===============================
+   HOVER STATES
+   Must stay ABOVE the state rules below: #cpu:hover and #cpu.critical have
+   the same specificity, so whichever comes last in the file wins. Hover
+   used to sit at the bottom and wiped out every state color.
+   =============================== */
+#cpu:hover,
+#memory:hover,
+#temperature:hover,
+#network:hover,
+#pulseaudio:hover,
+#battery:hover {
+  background: #504945;
 }
 
 /* Battery states */
@@ -90,6 +120,43 @@ window#waybar {
   color: #fbf1c7;
 }
 
+/* Charging beats low: plugged in is good news, don't scream about it. */
+#battery.charging.warning,
+#battery.charging.critical {
+  background: #98971a;
+  color: #1d2021;
+}
+
+/* ===============================
+   LOAD STATES (cpu / memory / temperature)
+   Thresholds live in the "states" block of ~/.config/waybar/config
+   =============================== */
+#cpu.warning,
+#memory.warning,
+#temperature.warning {
+  background: #d79921;
+  color: #1d2021;
+}
+
+#cpu.critical,
+#memory.critical,
+#temperature.critical {
+  background: #cc241d;
+  color: #fbf1c7;
+}
+
+/* ===============================
+   NETWORK STATES
+   =============================== */
+#network.disconnected {
+  background: #cc241d;
+  color: #fbf1c7;
+}
+
+#network.linked {
+  color: #d79921;  /* interface up but no IP */
+}
+
 /* Clock highlight */
 #clock {
   background: #504945;
@@ -100,6 +167,12 @@ window#waybar {
 #pulseaudio.muted {
   background: #3c3836;
   color: #928374;
+}
+
+/* Volume pushed past 100% */
+#pulseaudio.overamplified {
+  background: #d79921;
+  color: #1d2021;
 }
 
 /* Tray icons spacing */
@@ -118,17 +191,6 @@ window#waybar {
 #custom-power:hover {
   background: #fb4934;
   color: #1d2021;
-}
-
-/* ===============================
-   HOVER STATES
-   =============================== */
-#cpu:hover,
-#memory:hover,
-#network:hover,
-#pulseaudio:hover,
-#battery:hover {
-  background: #504945;
 }
 
 /* =======================================
