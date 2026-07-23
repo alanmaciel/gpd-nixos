@@ -249,6 +249,8 @@ programs.nix-ld = {
     alacritty
     pcmanfm
     rofi
+    # provides nm-applet, autostarted from hyprland.conf
+    networkmanagerapplet
 
     # tools
     vim
@@ -428,6 +430,11 @@ programs.nix-ld = {
   ## Greetd – TUIGreet + Hyprland only
   ########################################
 
+  # The session command is `start-hyprland`, not `Hyprland` directly: it is the
+  # launcher hyprland.desktop itself uses, and it sets up the watchdog fd that
+  # Hyprland expects. Launching the bare binary made Hyprland log
+  # "launched without start-hyprland" and paint a red warning notification over
+  # the screen for the first 15 seconds of every session.
   services.greetd = {
     enable = true;
 
@@ -444,7 +451,7 @@ programs.nix-ld = {
             --remember \
             --remember-user-session \
             --asterisks \
-            --cmd Hyprland
+            --cmd start-hyprland
         '';
         user = "greeter";
       };
