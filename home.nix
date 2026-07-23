@@ -45,6 +45,7 @@
     # Link all dotfile directories
     link_config "hypr"
     link_config "waybar"
+    link_config "mako"
     link_config "alacritty"
     link_config "btop"
     link_config "doom"

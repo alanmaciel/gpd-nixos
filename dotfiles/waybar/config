@@ -44,6 +44,8 @@
   },
 
   "battery": {
+    "on-click": "~/.config/waybar/scripts/module-info.sh battery",
+    "on-click-right": "~/.config/waybar/scripts/popup.sh btop",
     "bat": "BAT0",
     "interval": 10,
     "states": {
@@ -58,6 +60,8 @@
   },
 
   "pulseaudio": {
+    "on-click": "~/.config/waybar/scripts/module-info.sh volume",
+    "on-click-right": "~/.config/waybar/scripts/popup.sh --gui org.pulseaudio.pavucontrol pavucontrol",
     "format": "{icon}",
     "format-muted": "󰝟",
     "format-icons": {
@@ -73,6 +77,8 @@
   },
 
   "cpu": {
+    "on-click": "~/.config/waybar/scripts/module-info.sh cpu",
+    "on-click-right": "~/.config/waybar/scripts/popup.sh btop",
     "interval": 2,
     "format": "{icon}",
     "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
@@ -84,6 +90,8 @@
   },
 
   "memory": {
+    "on-click": "~/.config/waybar/scripts/module-info.sh memory",
+    "on-click-right": "~/.config/waybar/scripts/popup.sh btop",
     "interval": 5,
     "format": "{icon}",
     "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
@@ -96,6 +104,8 @@
   },
 
   "temperature": {
+    "on-click": "~/.config/waybar/scripts/module-info.sh temperature",
+    "on-click-right": "~/.config/waybar/scripts/popup.sh btop",
     "hwmon-path-abs": "/sys/devices/platform/coretemp.0/hwmon",
     "input-filename": "temp1_input",
     "interval": 5,
@@ -109,6 +119,8 @@
   },
 
   "network": {
+    "on-click": "~/.config/waybar/scripts/module-info.sh network",
+    "on-click-right": "~/.config/waybar/scripts/popup.sh nmtui",
     "format-wifi": "{icon}",
     "format-icons": {
       "wifi": [

@@ -267,6 +267,13 @@ programs.nix-ld = {
     pamixer
     playerctl
     wl-clipboard
+
+    # Waybar click handlers: left-click pops the module's numbers as a
+    # notification (mako is the daemon, libnotify provides notify-send),
+    # right-click opens the matching tool.
+    mako
+    libnotify
+    pavucontrol
     grim
     slurp
     swappy

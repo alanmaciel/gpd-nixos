@@ -1,0 +1,38 @@
+# Notification daemon for the Hyprland session.
+#
+# Its main job here is the Waybar left-click handlers: the bar is icon-only,
+# so clicking a glyph pops the real numbers through notify-send.
+#
+# Gruvbox dark hard, sized for the GPD MicroPC's 1024x576 logical screen.
+
+font=BlexMono Nerd Font Mono 13
+
+background-color=#3c3836
+text-color=#ebdbb2
+border-color=#504945
+progress-color=over #504945
+
+border-size=1
+border-radius=6
+padding=10,14
+margin=10
+
+width=380
+height=260
+max-visible=4
+
+anchor=top-right
+default-timeout=6000
+ignore-timeout=0
+
+# Waybar module info: dismiss on click, and never stack duplicates when the
+# same glyph is clicked repeatedly.
+[app-name=waybar]
+group-by=summary
+default-timeout=6000
+
+[urgency=critical]
+background-color=#cc241d
+text-color=#fbf1c7
+border-color=#fb4934
+default-timeout=0
