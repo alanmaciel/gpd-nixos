@@ -39,6 +39,7 @@ window#waybar {
   margin: 0 2px;
   background: transparent;
   color: #a89984;  /* dim gray for empty workspaces */
+  font-weight: bold;
 }
 
 #workspaces button.occupied {

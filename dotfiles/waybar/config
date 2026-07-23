@@ -55,7 +55,7 @@
     },
     "format": "{icon}",
     "format-charging": "󰂄",
-    "format-icons": ["", "", "", "", ""],
+    "format-icons": ["󰁺", "󰁼", "󰁾", "󰂀", "󰁹"],
     "tooltip": true,
     "tooltip-format": "Battery: {capacity}%"
   },
@@ -112,9 +112,9 @@
     "interval": 5,
     "warning-threshold": 75,
     "critical-threshold": 90,
-    "format": "",
-    "format-warning": "",
-    "format-critical": "",
+    "format": "󰔏",
+    "format-warning": "󱃂",
+    "format-critical": "󰸁",
     "tooltip": true,
     "tooltip-format": "CPU: {temperatureC}°C"
   },
@@ -128,12 +128,11 @@
         "󰤟",
         "󰤢",
         "󰤥",
-        "󰤨",
-        ""
+        "󰤨"
       ]
     },
     "format-ethernet": "󰈁",
-    "format-disconnected": "",
+    "format-disconnected": "󰤫",
     "tooltip": true,
     "tooltip-format": "SSID: {essid}\nSignal: {signalStrength}%"
   },
