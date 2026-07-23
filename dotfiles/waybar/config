@@ -38,6 +38,7 @@
   },
 
   "clock": {
+    "on-click": "gsimplecal",
     "format": "{:%H:%M}",
     "tooltip": true,
     "tooltip-format": "{:%A, %Y-%m-%d\nWeek: %V}"

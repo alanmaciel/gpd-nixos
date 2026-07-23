@@ -274,6 +274,8 @@ programs.nix-ld = {
     mako
     libnotify
     pavucontrol
+    # Calendar popup for the clock module
+    gsimplecal
     grim
     slurp
     swappy

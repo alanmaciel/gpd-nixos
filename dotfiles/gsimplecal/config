@@ -1,0 +1,37 @@
+# Calendar popup for the Waybar clock.
+#
+# Clicking the clock runs "gsimplecal", which toggles: a second click closes
+# the window again. The month is navigated with the < > pair GtkCalendar
+# draws in its header.
+#
+# Waybar's own {calendar} lives in a tooltip, which only appears on hover —
+# hence this separate window.
+
+show_calendar = 1
+show_week_numbers = 1
+mark_today = 1
+
+# The weekday/date line. It is drawn by the "timezones" section, so that has
+# to be on and needs at least one clock entry: with no clock_label the list
+# stays empty and nothing is rendered at all. Omitting clock_tz leaves the
+# timezone empty, which Clock.cpp treats as local time.
+# Month names follow LC_TIME (en_US.UTF-8 here), so the wording is English
+# to match, and the year is left out because the calendar header shows it.
+show_timezones = 1
+clock_label = Today
+clock_format = %A %d %B · week %V
+
+# Position and decorations are left to Hyprland: a Wayland client cannot
+# place itself on screen, so mainwindow_position=mouse silently does nothing.
+# hyprland.conf pins it under the clock via a windowrule instead.
+mainwindow_position = none
+mainwindow_decorated = 0
+mainwindow_resizable = 0
+mainwindow_keep_above = 1
+mainwindow_skip_taskbar = 1
+
+# Closing is the click-the-clock-again toggle, not focus loss: a layer-shell
+# bar does not hand focus over the way a normal window would, so keying the
+# close on unfocus risks the window vanishing the moment it appears.
+close_on_unfocus = 0
+close_on_mouseleave = 0
